@@ -4,6 +4,9 @@ import fr.batigere.gateway.casesmgmt.CasesService;
 import fr.batigere.gateway.contactsmgmt.ContactsService;
 import fr.batigere.gateway.rest.dtos.Case;
 import fr.batigere.gateway.rest.dtos.Contact;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.Info;
+import io.swagger.annotations.SwaggerDefinition;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -15,6 +18,8 @@ import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Api(value = "gateway cases-mgmt", basePath = "/api/v2/cases")
+@SwaggerDefinition(info = @Info(title = "Gateway pour la gestion des cases", version="1.0"))
 @ApplicationScoped
 @Path("/cases")
 public class CasesEndpoint {

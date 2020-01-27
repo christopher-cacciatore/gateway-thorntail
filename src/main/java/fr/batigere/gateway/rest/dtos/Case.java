@@ -1,11 +1,24 @@
 package fr.batigere.gateway.rest.dtos;
 
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
+
+import javax.validation.constraints.NotBlank;
+
 public class Case {
 
+    @ApiModelProperty(value="ID technique du case", example="50fcecf6-bbc0-47fe-af49-a62355ae7f7a")
+    @NotBlank
     private String id;
+
+    @ApiModelProperty("titre du case")
     private String title;
+
+    @ApiModelProperty("contenu du case tapé par l'utilisateur")
     private String description;
+
+    @ApiModelProperty("détail de l'utilisateur créateur du case")
     private Contact createdBy;
 
     public String getId() {
