@@ -1,14 +1,14 @@
 thorntail:
   http:
-    port: 8082
+    port: 8080
   management:
     http:
-      port: 9992
+      port: 9990
 
 cases:
   mgmt:
-    base-url: http://localhost:8080/api/v1
+    base-url: http://cases-mgmt:8080/api/v1
 
 contacts:
   mgmt:
-    base-url: http://localhost:8081/api/v1
+    base-url: http://contacts-mgmt:8080/api/v1
