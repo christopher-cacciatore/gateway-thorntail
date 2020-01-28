@@ -4,6 +4,7 @@ package fr.batigere.gateway.casesmgmt;
 import fr.batigere.gateway.casesmgmt.endpoints.CasesMgmtEndpoint;
 import fr.batigere.gateway.rest.dtos.Case;
 import fr.batigere.gateway.rest.dtos.Contact;
+import org.eclipse.microprofile.opentracing.Traced;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -16,11 +17,13 @@ public class CasesService {
     @Inject
     private CasesMgmtEndpoint casesMgmtEndpoint;
 
+    @Traced
     public Case getCaseById(String id) {
         fr.batigere.gateway.casesmgmt.dtos.Case case1 = casesMgmtEndpoint.getCaseById(id);
         return this.casemgmtToDto(case1);
     }
 
+    @Traced
     public List<Case> getAllCases() {
         return casesMgmtEndpoint.getAllCases()
                 .stream()

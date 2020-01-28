@@ -7,6 +7,7 @@ import fr.batigere.gateway.rest.dtos.Contact;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.Info;
 import io.swagger.annotations.SwaggerDefinition;
+import org.eclipse.microprofile.opentracing.Traced;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 
 @Api(value = "gateway cases-mgmt", basePath = "/api/v2/cases")
 @SwaggerDefinition(info = @Info(title = "Gateway pour la gestion des cases", version="1.0"))
+@Traced
 @ApplicationScoped
 @Path("/cases")
 public class CasesEndpoint {

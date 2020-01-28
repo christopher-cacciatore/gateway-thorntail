@@ -1,5 +1,6 @@
 package fr.batigere.gateway.contactsmgmt.endpoints;
 
+import io.opentracing.contrib.jaxrs2.client.ClientTracingFeature;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
@@ -21,6 +22,7 @@ public class ContactsMgmtEndpointProducer {
     @RequestScoped
     public ContactsMgmtEndpoint buildContactsMgmtEndpoint(){
         ResteasyClient client = (ResteasyClient) ResteasyClientBuilder.newClient();
+        client.register(ClientTracingFeature.class);
         ResteasyWebTarget target = client.target(this.contactsMgmtUrl);
         return target.proxy(ContactsMgmtEndpoint.class);
     }

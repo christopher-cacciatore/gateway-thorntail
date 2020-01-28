@@ -2,6 +2,7 @@ package fr.batigere.gateway.contactsmgmt;
 
 import fr.batigere.gateway.contactsmgmt.endpoints.ContactsMgmtEndpoint;
 import fr.batigere.gateway.rest.dtos.Contact;
+import org.eclipse.microprofile.opentracing.Traced;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -12,6 +13,7 @@ public class ContactsService {
     @Inject
     private ContactsMgmtEndpoint contactsMgmtEndpoint;
 
+    @Traced
     public Contact getContactByUsername(String userName){
         return this.contactMgmtToDto(this.contactsMgmtEndpoint.getContactByUsername(userName));
     }

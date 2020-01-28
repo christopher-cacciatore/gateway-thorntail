@@ -4,6 +4,13 @@ thorntail:
   management:
     http:
       port: 9990
+swarm:
+  jaeger:
+    service-name: 'gateway'
+    sampler-type: 'const'
+    sampler-parameter: 1
+    enable-b3-header-propagation: true
+    remote-reporter-http-endpoint: 'http://jaeger:14268/api/traces'
 
 cases:
   mgmt:
