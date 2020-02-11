@@ -14,8 +14,8 @@ public class ContactsService {
     private ContactsMgmtEndpoint contactsMgmtEndpoint;
 
     @Traced
-    public Contact getContactByUsername(String userName){
-        return this.contactMgmtToDto(this.contactsMgmtEndpoint.getContactByUsername(userName));
+    public Contact getContactByUsername(String userName, String token){
+        return this.contactMgmtToDto(this.contactsMgmtEndpoint.getContactByUsername(userName, token));
     }
 
     private Contact contactMgmtToDto(fr.batigere.gateway.contactsmgmt.dtos.Contact cont){

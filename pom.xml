@@ -135,5 +135,9 @@
       <groupId>io.thorntail</groupId>
       <artifactId>jaeger</artifactId>
     </dependency>
+    <dependency>
+      <groupId>io.thorntail</groupId>
+      <artifactId>keycloak</artifactId>
+    </dependency>
   </dependencies>
 </project>

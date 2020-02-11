@@ -8,14 +8,19 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.Info;
 import io.swagger.annotations.SwaggerDefinition;
 import org.eclipse.microprofile.opentracing.Traced;
+import org.keycloak.KeycloakPrincipal;
+import org.keycloak.KeycloakSecurityContext;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,29 +40,39 @@ public class CasesEndpoint {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Case getCaseById(@PathParam("id") String id) {
-        Case res = this.casesService.getCaseById(id);
-        res = this.findContactForCase(res);
+    public Case getCaseById(@PathParam("id") String id, @Context HttpServletRequest servletRequest) {
+        String token = this.getTokenFromHttpServletRequest(servletRequest);
+        Case res = this.casesService.getCaseById(id, token);
+        res = this.findContactForCase(res, token);
         return res;
     }
 
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Case> getAllCases() {
-        return this.casesService.getAllCases()
+    public List<Case> getAllCases(@Context HttpServletRequest servletRequest) {
+        String token = this.getTokenFromHttpServletRequest(servletRequest);
+        return this.casesService.getAllCases(token)
                 .stream()
-                .map(c -> this.findContactForCase(c))
+                .map(c -> this.findContactForCase(c, token))
                 .collect(Collectors.toList());
     }
 
-    private Case findContactForCase(Case cse) {
+    private Case findContactForCase(Case cse, String token) {
         if (cse != null) {
-            Contact ctct = this.contactsService.getContactByUsername(cse.getCreatedBy().getUserName());
+            Contact ctct = this.contactsService.getContactByUsername(cse.getCreatedBy().getUserName(), token);
             if (ctct != null) {
                 cse.setCreatedBy(ctct);
             }
         }
         return cse;
     }
+
+    private String getTokenFromHttpServletRequest(HttpServletRequest servletRequest){
+        Principal userPrincipal = servletRequest.getUserPrincipal();
+        KeycloakPrincipal<KeycloakSecurityContext> kcPrincipal = (KeycloakPrincipal<KeycloakSecurityContext>) userPrincipal;
+        return "Bearer "+kcPrincipal.getKeycloakSecurityContext().getTokenString();
+    }
+
+
 }
